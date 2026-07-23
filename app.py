@@ -44,7 +44,10 @@ def handle_turn(audio_path, typed_text, history):
     answer = route(question, thread_id=SESSION_ID)
     audio_out = speak(answer, voice="nova", output_path="response.mp3")
 
-    history = history + [(question, answer)]
+    history = history + [
+        {"role": "user", "content": question},
+        {"role": "assistant", "content": answer},
+    ]
     return history, audio_out, "", None
 
 
@@ -60,7 +63,7 @@ with gr.Blocks(title="CIS Department Voice Assistant") as demo:
         """
     )
 
-    chatbot = gr.Chatbot(label="Conversation", height=400)
+    chatbot = gr.Chatbot(label="Conversation", height=400, type="messages")
 
     with gr.Row():
         mic = gr.Audio(sources=["microphone"], type="filepath", label="🎙️ Ask by voice")
