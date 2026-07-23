@@ -63,7 +63,7 @@ with gr.Blocks(title="CIS Department Voice Assistant") as demo:
         """
     )
 
-    chatbot = gr.Chatbot(label="Conversation", height=400, type="messages")
+    chatbot = gr.Chatbot(label="Conversation", height=400)
 
     with gr.Row():
         mic = gr.Audio(sources=["microphone"], type="filepath", label="🎙️ Ask by voice")
