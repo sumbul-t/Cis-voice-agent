@@ -12,12 +12,19 @@ Run locally:
 Deploy: push this repo to a Hugging Face Space (Gradio SDK) and add
 OPENAI_API_KEY / PINECONE_API_KEY as Space secrets. See README.md.
 """
+import sys
 import uuid
 
+print("[startup] app.py starting...", flush=True)
+
 import gradio as gr
+print("[startup] gradio imported", flush=True)
 
 from rag import transcribe, speak
+print("[startup] rag imported (openai + pinecone connected)", flush=True)
+
 from agents import route
+print("[startup] agents imported", flush=True)
 
 # One session/thread id per browser tab, so LangGraph's MemorySaver keeps
 # separate conversation memory per visitor instead of one shared thread.
@@ -74,4 +81,8 @@ with gr.Blocks(title="CIS Department Voice Assistant") as demo:
     )
 
 if __name__ == "__main__":
-    demo.launch()
+    import os
+    port = int(os.environ.get("PORT", 7860))
+    print(f"[startup] launching Gradio on 0.0.0.0:{port}...", flush=True)
+    demo.launch(server_name="0.0.0.0", server_port=port)
+    print("[startup] demo.launch() returned (should not normally happen)", flush=True)
